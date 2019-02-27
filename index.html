@@ -7,15 +7,22 @@
 	<script src="lib/bootstrap/javascript.js"></script>
 	<link rel="stylesheet" type="text/css" href="lib/bootstrap/style.css">
 	<style>
-		.jumbotron{
+		.jumbotron {
+			padding: 20px;
 			width: 400px;
 			text-align: center;
 			margin-top: 20px;
 			margin-left: auto;
 			margin-right: auto;
 		}
-		.top-2{
+		.top-2 {
 			margin-top: 2px;
+		}
+		.selecionado {
+			background-color: yellow;
+		}
+		.negrito {
+			font-weight: bold;
 		}
 	</style>
 	<script src="lib/angular/angular.js"></script>
@@ -24,17 +31,33 @@
 		angular.module("ListaTelefonica").controller("listaTelefonicaCtrl", function($scope){
 			$scope.app = 'Lista Telefônica';
 			$scope.contatos = [
-				{nome: "Pedro", telefone: "999999999"},
-				{nome: "Ana", telefone: "999999988"},
-				{nome: "Maria", telefone: "999999977"},
+				{nome: "Pedro", telefone: "999999999", cor: "blue"},
+				{nome: "Ana", telefone: "999999988", cor: "yellow"},
+				{nome: "Maria", telefone: "999999977", cor: "red"},
+			];
+			$scope.operadoras = [
+				{nome: "Oi", codigo: 14, categoria: "Celular"},
+				{nome: "Vivo", codigo: 15, categoria: "Celular"},
+				{nome: "Tim", codigo: 41, categoria: "Celular"},
+				{nome: "GVT", codigo: 25, categoria: "Fixo"},
+				{nome: "Embratel", codigo: 21, categoria: "Fixo"}
 			];
 			$scope.adicionarContato = function(contato){
-				if (contato != null) {
-					$scope.contatos.push(contato);
-					delete $scope.contato;
-				} else {
-					return null;
-				}
+				$scope.contatos.push(contato);
+				delete $scope.contato;
+			};
+			$scope.adicionarContato = function(contato){
+				$scope.contatos.pop();
+			};
+			$scope.apagarContatos = function(contatos){
+				$scope.contatos = contatosSelecionados = contatos.filter(function (contato) {
+					if (!contato.selecionado) return contato;
+				});
+			}
+			$scope.isContatoSelecionado = function (contatos){
+				return contatos.some(function (contato){
+					return contato.selecionado;
+				});
 			};
 		});
 	</script>
@@ -42,19 +65,34 @@
 <body ng-controller="listaTelefonicaCtrl">
 	<div class="jumbotron">
 		<h3>{{app}}</h3>
-		<table class="table table-striped">
+		<table ng-show="contatos.length > 0" class="table">
 			<tr>
+				<th></th>
 				<th>Nome</th>
 				<th>Telefone</th>
+				<th>Operadora</th>
+				<th></th>
 			</tr>
-			<tr align="left" ng-repeat="contato in contatos">
+			<tr ng-class="{'selecionado negrito': contato.selecionado}" align="left" ng-repeat="contato in contatos">
+				<td><input type="checkbox" ng-model="contato.selecionado"></td>
 				<td>{{contato.nome}}</td>
 				<td>{{contato.telefone}}</td>
+				<td>{{contato.operadora.nome}}</td>
+				<td><div style="width: 20px; height: 20px" ng-style="{'background-color': contato.cor}"></div></td>
 			</tr>
 		</table>
 		<input class="form-control" type="text" ng-model="contato.nome" placeholder="nome"/>
 		<input class="form-control" type="text" ng-model="contato.telefone" placeholder="telefone" />
-		<button class="btn btn-primary btn-block top-2" ng-click="adicionarContato(contato)">Adicionar Contato</button>
+		<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome for operadora in operadoras">
+		<!-- operadora.nome group by operadora.categoria for operadora in operadoras -->
+		<!-- operadora.codigo as operadora.nome for operadora in operadoras -->
+			<option value="">Selecione uma operadora</option>
+		</select>
+		<button class="btn btn-primary btn-block top-2" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
+		<button class="btn btn-danger btn-block top-2" ng-click="apagarContatos(contatos)" ng-disabled="!isContatoSelecionado(contatos)" >Apagar Contatos</button>
+		<!-- ng-show="" e ng-hide -> trabalham na visibilidade apenas 
+			 ng-if="" -> retira totalmente -->
 	</div>
+	<div ng-include="'footer.html'"></div>
 </body>
 </html>
