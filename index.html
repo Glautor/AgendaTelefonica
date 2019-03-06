@@ -18,15 +18,15 @@
 <body ng-controller="listaTelefonicaCtrl">
 	<div class="jumbotron">
 		<ui-accordions>
-			<ui-accordion title="Accordion 1">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in nulla eros. Etiam nec justo maximus, maximus elit tincidunt, convallis purus. Fusce porttitor nulla a malesuada consectetur. Pellentesque at tellus quam. Pellentesque non purus a turpis euismod feugiat eget aliquam enim. In hac habitasse platea dictumst. Suspendisse neque orci, efficitur quis arcu sit amet, interdum fermentum velit. Proin in lorem luctus, convallis nisi sed, consectetur nisi. Proin aliquam erat eu ligula blandit auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hac habitasse platea dictumst. Suspendisse posuere, ante eget ultrices semper, leo elit commodo libero, at vulputate justo nibh ut dolor.
+			<ui-accordion title="Accordion 1"><!--
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in nulla eros. Etiam nec justo maximus, maximus elit tincidunt, convallis purus. Fusce porttitor nulla a malesuada consectetur. Pellentesque at tellus quam. Pellentesque non purus a turpis euismod feugiat eget aliquam enim. In hac habitasse platea dictumst. Suspendisse neque orci, efficitur quis arcu sit amet, interdum fermentum velit. Proin in lorem luctus, convallis nisi sed, consectetur nisi. Proin aliquam erat eu ligula blandit auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hac habitasse platea dictumst. Suspendisse posuere, ante eget ultrices semper, leo elit commodo libero, at vulputate justo nibh ut dolor.-->
 			</ui-accordion>
-			<ui-accordion title="Accordion 2">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in nulla eros. Etiam nec justo maximus, maximus elit tincidunt, convallis purus. Fusce porttitor nulla a malesuada consectetur. Pellentesque at tellus quam. Pellentesque non purus a turpis euismod feugiat eget aliquam enim. In hac habitasse platea dictumst. Suspendisse neque orci, efficitur quis arcu sit amet, interdum fermentum velit. Proin in lorem luctus, convallis nisi sed, consectetur nisi. Proin aliquam erat eu ligula blandit auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hac habitasse platea dictumst. Suspendisse posuere, ante eget ultrices semper, leo elit commodo libero, at vulputate justo nibh ut dolor.
+			<ui-accordion title="Accordion 2"><!--
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in nulla eros. Etiam nec justo maximus, maximus elit tincidunt, convallis purus. Fusce porttitor nulla a malesuada consectetur. Pellentesque at tellus quam. Pellentesque non purus a turpis euismod feugiat eget aliquam enim. In hac habitasse platea dictumst. Suspendisse neque orci, efficitur quis arcu sit amet, interdum fermentum velit. Proin in lorem luctus, convallis nisi sed, consectetur nisi. Proin aliquam erat eu ligula blandit auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hac habitasse platea dictumst. Suspendisse posuere, ante eget ultrices semper, leo elit commodo libero, at vulputate justo nibh ut dolor.-->
 			</ui-accordion>
 		</ui-accordions>
 		<h3>{{app}}</h3>
-		<input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="O que você está buscando?">
+		<input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="O que você está buscando?" ng-model-options="{updateOn: 'default blur', debounce:{default: 500, blur: 0}}">
 		<table ng-show="contatos.length > 0" class="table">
 			<tr>
 				<th></th>
@@ -35,12 +35,12 @@
 				<th>Operadora</th>
 				<th>Data</th>
 			</tr>
-			<tr ng-class="{'selecionado negrito': contato.selecionado}" align="left" ng-repeat="contato in contatos | filter: {nome: criterioDeBusca} | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao">
+			<tr ng-class="{'selecionado negrito': contato.selecionado}" align="left" ng-repeat="contato in contatos | filter: {nome: criterioDeBusca} | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao track by $index">
 				<td><input type="checkbox" ng-model="contato.selecionado"></td>
-				<td>{{contato.nome}}</td>
-				<td>{{contato.telefone}}</td>
-				<td>{{contato.operadora.nome | lowercase}}</td>
-				<td>{{contato.data | date: 'dd/MM/yyyy'}}</td>
+				<td>{{contato.nomeComLimite | uppercase}}</td>
+				<td>{{::contato.telefone}}</td>
+				<td>{{::contato.operadora.nome | lowercase}}</td>
+				<td>{{::contato.data | date: 'dd/MM/yyyy'}}</td>
 			</tr>
 		</table>
 		<form name="contatoForm">
