@@ -1,0 +1,1 @@
+// here you can put the global variables that differente parts of your system uses

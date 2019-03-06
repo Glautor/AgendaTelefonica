@@ -1,4 +1,4 @@
-angular.module("ListaTelefonica").controller("listaTelefonicaCtrl", function($scope, $filter){
+angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, $filter){
 	$scope.app = 'Lista Telefônica';
 	$scope.contatos = [
 		{nome: $filter("uppercase")("Pedro"), telefone: "999999999", data: new Date(), operadora: {nome: "Oi", codigo: 14, categoria: "Celular"}},
