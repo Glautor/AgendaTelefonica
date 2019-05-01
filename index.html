@@ -10,72 +10,16 @@
 	<script src="lib/angular/angular.js"></script>
 	<script src="lib/angular/angular-locale_pt-br.js"></script>
 	<script src="lib/angular/angular-messages.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/directives/uiDateDirective.js"></script>
 	<script src="js/directives/uiAccordionDirective.js"></script>
 	<script src="js/controllers/listaTelefonicaCtrl.js"></script>
+	<script src="js/controllers/index3Ctrl.js"></script>
+	<script src="js/controllers/index4Ctrl.js"></script>
 </head>
-<body ng-controller="listaTelefonicaCtrl">
-	<div class="jumbotron">
-		<ui-accordions>
-			<ui-accordion title="Accordion 1"><!--
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in nulla eros. Etiam nec justo maximus, maximus elit tincidunt, convallis purus. Fusce porttitor nulla a malesuada consectetur. Pellentesque at tellus quam. Pellentesque non purus a turpis euismod feugiat eget aliquam enim. In hac habitasse platea dictumst. Suspendisse neque orci, efficitur quis arcu sit amet, interdum fermentum velit. Proin in lorem luctus, convallis nisi sed, consectetur nisi. Proin aliquam erat eu ligula blandit auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hac habitasse platea dictumst. Suspendisse posuere, ante eget ultrices semper, leo elit commodo libero, at vulputate justo nibh ut dolor.-->
-			</ui-accordion>
-			<ui-accordion title="Accordion 2"><!--
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in nulla eros. Etiam nec justo maximus, maximus elit tincidunt, convallis purus. Fusce porttitor nulla a malesuada consectetur. Pellentesque at tellus quam. Pellentesque non purus a turpis euismod feugiat eget aliquam enim. In hac habitasse platea dictumst. Suspendisse neque orci, efficitur quis arcu sit amet, interdum fermentum velit. Proin in lorem luctus, convallis nisi sed, consectetur nisi. Proin aliquam erat eu ligula blandit auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hac habitasse platea dictumst. Suspendisse posuere, ante eget ultrices semper, leo elit commodo libero, at vulputate justo nibh ut dolor.-->
-			</ui-accordion>
-		</ui-accordions>
-		<h3>{{app}}</h3>
-		<input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="O que você está buscando?" ng-model-options="{updateOn: 'default blur', debounce:{default: 500, blur: 0}}">
-		<table ng-show="contatos.length > 0" class="table">
-			<tr>
-				<th></th>
-				<th><a href="" ng-click="ordenarPor('nome')">Nome</a></th>
-				<th><a href="" ng-click="ordenarPor('telefone')">Telefone</a></th>
-				<th>Operadora</th>
-				<th>Data</th>
-			</tr>
-			<tr ng-class="{'selecionado negrito': contato.selecionado}" align="left" ng-repeat="contato in contatos | filter: {nome: criterioDeBusca} | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao track by $index">
-				<td><input type="checkbox" ng-model="contato.selecionado"></td>
-				<td>{{contato.nomeComLimite | uppercase}}</td>
-				<td>{{::contato.telefone}}</td>
-				<td>{{::contato.operadora.nome | lowercase}}</td>
-				<td>{{::contato.data | date: 'dd/MM/yyyy'}}</td>
-			</tr>
-		</table>
-		<form name="contatoForm">
-			<input class="form-control" type="text" ng-model="contato.nome" name="nome" ng-required="true" ng-minlength="10" placeholder="nome"/>
-			<input class="form-control" type="text" ng-model="contato.telefone" name="telefone" ng-required="true" placeholder="telefone" ng-pattern="/^\d{4,5}-\d{4}$/" />
-			<input class="form-control" type="text" ng-model="contato.data" name="data" placeholder="Data" ui-date/>
-			<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome + ' ( ' + (operadora.preco | currency) + ' )' for operadora in operadoras | orderBy:'nome'">
-			<!-- operadora.nome group by operadora.categoria for operadora in operadoras -->
-			<!-- operadora.codigo as operadora.nome for operadora in operadoras -->
-				<option value="">Selecione uma operadora</option>
-			</select>
-		</form>
-		<div ng-class="{'top-23 alert alert-danger': (contatoForm.nome.$dirty || contatoForm.telefone.$dirty) && (contatoForm.nome.$error.minlength || contatoForm.telefone.$error.pattern) }">
-			<div ng-messages="contatoForm.nome.$error">
-				<div ng-message="required" ng-show="contatoForm.nome.$dirty">
-					Por favor, preencha o campo nome
-				</div>
-				<div ng-message="minlength">
-					O campo nome deve ter no mínimo 10 caracteres
-				</div>
-			</div>
-			<div ng-messages="contatoForm.telefone.$error">
-				<div ng-message="required" ng-show="contatoForm.telefone.$dirty">
-					Por favor, preencha o campo telefone
-				</div>
-				<div ng-message="pattern" ng-show="contatoForm.telefone.$dirty">
-					O campo telefone deve ter formato xxxxx-xxxx
-				</div>
-			</div>
-		</div>
-		<button class="btn btn-primary btn-block top-2" ng-click="adicionarContato(contato)" ng-disabled="contatoForm.$invalid">Adicionar Contato</button>
-		<button class="btn btn-danger btn-block top-2" ng-click="apagarContatos(contatos)" ng-disabled="!isContatoSelecionado(contatos)" >Apagar Contatos</button>
-		<!-- ng-show="" e ng-hide -> trabalham na visibilidade apenas 
-			 ng-if="" -> retira totalmente -->
-	</div>
+<body>
+	<div ng-include="'index2.html'"></div>
 	<div ng-include="'view/footer.html'"></div>
 </body>
 </html>
